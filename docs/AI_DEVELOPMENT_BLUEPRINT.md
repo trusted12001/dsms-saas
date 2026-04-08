@@ -259,6 +259,66 @@ When resuming work:
 
 ---
 
+## Architecture Decision Status
+
+Confirmed:
+
+- Laravel 12
+- MySQL
+- Blade frontend
+- Multi-tenant SaaS structure
+- Shared database with tenant_id approach (pending final confirmation)
+
+Pending confirmation:
+
+- Bootstrap vs Tailwind
+- Subscription billing model
+- hosting/deployment strategy
+- support mode implementation approach
+- branch architecture rules
+
+---
+
+## Tenant Scope Rule
+
+Every tenant-owned model must include tenant context.
+
+Queries for tenant-owned records must always be filtered by tenant_id unless explicitly handled in a Super Admin context.
+
+No controller, service, policy, or report should access tenant-owned data without tenant scoping.
+
+---
+
+## Financial Integrity Rules
+
+- Financial records must be append-safe where appropriate
+- Receipts and payment records must be traceable
+- Deleting financial records should be restricted or replaced with reversal/cancellation workflows
+- Totals shown in dashboards and reports must reconcile with source transactions
+- Audit logs should capture critical financial actions
+
+---
+
+## Support Mode Safety
+
+When Super Admin enters tenant support mode:
+
+- actions must occur in explicit tenant context
+- support mode should be clearly visible in the UI
+- sensitive actions may require extra confirmation
+- audit logs should record support-mode actions
+
+---
+
+Preferred tenant model:
+
+- single shared database
+- central tenants table
+- tenant_id on tenant-owned operational records
+- strict application-level tenant scoping
+
+---
+
 ## AI Prompt Starter
 
 Use this to begin AI sessions:
